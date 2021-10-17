@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     namespace: app
-    server: https://kubernetes.default.svc
+    server: https://ED2D3998E66992ADB0412FDDEBF38F1A.gr7.us-east-2.eks.amazonaws.com
   project: default
   source:
     path: kubernetes
