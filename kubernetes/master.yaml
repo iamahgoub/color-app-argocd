@@ -1,31 +1,31 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: >
-
-  This template installs the New Relic ECS integration. It stores your license
-  key as a secret, creates the required permissions and registers the
-  newrelic-infra ECS task. To deploy depending on your launch type, continue
-  with the instructions at https://docs.newrelic.com/docs/install-ecs-integration
-
-Resources:
-  NewRelicECSTaskExecutionRoleStack:
-    Type: "AWS::CloudFormation::Stack"
-    DeletionPolicy: Retain
-    Properties:
-      TemplateURL: "https://nr-downloads-main.s3.amazonaws.com/infrastructure_agent/integrations/ecs/cloudformation/task/execution-role.yaml"
-      Parameters:
-        LicenseKey:
-          Ref: LicenseKey
-
-  NewRelicInfraTaskStack:
-    Type: "AWS::CloudFormation::Stack"
-    DeletionPolicy: Retain
-    Properties:
-      TemplateURL: "https://nr-downloads-main.s3.amazonaws.com/infrastructure_agent/integrations/ecs/cloudformation/task/task.yaml"
-      Parameters:
-        ExecutionRoleARN: !GetAtt NewRelicECSTaskExecutionRoleStack.Outputs.ExecutionRoleARN
-        LicenseKeySecretARN: !GetAtt NewRelicECSTaskExecutionRoleStack.Outputs.LicenseKeySecretARN
-
-Parameters:
-  LicenseKey:
-    Type: String
-    Description: "New Relic license key. (From the New Relic menu bar, select Account settings.)"
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://ED2D3998E66992ADB0412FDDEBF38F1A.gr7.us-east-2.eks.amazonaws.com
+  project: default
+  source:
+    path: kubernetes
+    repoURL: https://github.com/iamahgoub/app.git
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
