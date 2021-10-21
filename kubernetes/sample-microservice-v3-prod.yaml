@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-v3-prod
+  name: sample-microservice-v3-prod
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
