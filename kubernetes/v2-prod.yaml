@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     path: kubernetes
-    repoURL: https://github.com/iamahgoub/app.git
+    repoURL: https://github.com/iamahgoub/sample-microservice-manifests.git
     targetRevision: v2-prod
   syncPolicy:
     automated:
