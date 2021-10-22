@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sample-microservice-v2
+  name: sample-microservice-v3
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -12,7 +12,7 @@ spec:
   source:
     path: kubernetes
     repoURL: https://github.com/iamahgoub/sample-microservice-manifests.git
-    targetRevision: v2
+    targetRevision: v3
   syncPolicy:
     automated:
       prune: true
