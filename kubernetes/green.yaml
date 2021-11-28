@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: green
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: kubernetes
+    repoURL: https://github.com/iamahgoub/green-argocd.git
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:    
+    - Validate=false 
+    - CreateNamespace=true 
+    - PrunePropagationPolicy=foreground 
+    - PruneLast=true 
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s 
+        factor: 2
+        maxDuration: 3m 
